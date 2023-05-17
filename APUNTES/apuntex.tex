@@ -1,0 +1,170 @@
+.- Iniciamos el proyecto node => npm init -y
+
+.- Instalamos las de pendencias de express y de mySQL
+
+.- requerimos las variables de entorno  dotenv y usammos su metodo config()
+
+.- Nos creamos un archivo app.js
+
+********************************************* app.js ***********************************************************
+
+.- Requerimoms expess y lo iniciamos:
+        
+.- Requerimoms las variables de entorno => require('dotenv').config()
+   nos creamos un archivo .env en la raiz del proyecto y definmos las variables de entorno 
+
+********************************************* DBConfig ***********************************************************   
+
+.- Creamos una carpeta DBConfig y dentro de ella un archivo .js donde definiremos la conexion con la basse de datos
+
+.- requerimos las variables de entorno  dotenv y usammos su metodo config()
+
+.- Creamos un objeto conexion del tipo msql y usamos el metodo .createConexión que recibe los parametros del conexion
+
+.- Con el objeto conexion usamos el metodo conect. Controlamos el error
+
+.- Exportamos el objeto conexion
+
+********************************************* app.js ***********************************************************
+
+.- Escuchamos la conexion a la base de datos con el metodo liste que recibe como parametos el puerto del servidor y 
+   como segundo parametro puede recibir una función
+        app.listem(puertoServidor, ()=>{})
+
+ 
+********************************************* CARPETA ROUTES ***********************************************************
+
+En esta carpeta vamos a definr tantos archivos como rutas tengamos. En este caso cremaos dos para las tablas de user y proeuctos
+
+.- Nos traemos express y utilizamos su metod Router()
+
+.- Importamos los controladores de las rutas
+
+.- con el objeto route utilizamos los metodos get/post/delete/update recibiendo como prime parametro la ruta y luego el controladores
+
+._ Exportamos el archivo routes que lo usaremos en la app principal
+
+********************************************* CARPETA CONTROLLER ***********************************************************
+
+En esta carpeta crearemos los metodos para las rutas de cada empoint
+
+.- Primero Nos creamos un objeto controlador vacio
+
+.- Nos traemos la conexion
+
+.- Creammos los metodos CRUD
+
+.- Exportamos los metodos
+
+
+********************************************* app.js ***********************************************************
+
+importamos la rutas y le decimos a la apliacion que las use
+
+Creamos un middleware para indicarle a express que vamos a trabajar con json
+         appe.use(express.json())
+
+
+================================================V A L I D A C I O N============================================
+
+vamos a validar los datos incluidos en la petición de insertar usuarios mediante middelwares
+instalamos el paquete expre-validator 
+utilizamos la funcion check del paquete express-validator
+ En la ruta antes del controllador ponemos un array con los middelwares que requiramos para validar
+dentro del check ponemos primero el nombre del campo que queremos validar, luego un mensaje de error por si no pasa, 
+y luego la función de validacion
+         
+El check directamente no para el ingreso de datos sino que recoge los errores  en un array y los inyecta en el request
+esos errores los tenemos que controlar en el controller mediante el meetodo validationResult de express-validator
+En el controlador tenemos que importar metodo validationResult de express-validator     
+
+
+
+
+
+=============================================E N C R I P T A C I O N============================================
+
+CONTROLLER USER. 
+
+Vamos a guardar la congtraseña encriptada en al base de datos
+
+ Instalamos el paquete npm i bryptjs y lo importamos.
+
+y tenemos que encriptar el password ante de insertarlo
+
+tenemos que generar un salt llamamos al paquete bycrity y llamamos al paquete getSaltSync() y
+
+ no creamos una varialble que le vamos a iguar al paquete bycrit con el metodo hasSync() que recibe dos parametros, el salt
+ y la contraseña que queremos encriptar
+
+
+ *=============================================L  O  G  I  N============================================
+
+
+ Nos creamos una funcion de login
+   
+   .- Validamos que el nombre de usuario y contraseña sean correctos
+
+   .- Creamos las variable que recojemos del body
+ 
+   .- Nos traemos idUsuairo y la contraseña del nombre de usuario que le pasamos, si no recibimos nada es que hubo un error
+
+   .- Comprobamos que la contraseña que recibimos es igual a la contraseña encirptada que tenemos en la bd
+      Para ellos usamos el metodo Sincrono "compareSync()" para que el programa se espere a que se ejecute la linea
+       y le pasamos primero la contraseña sin escritar que envia en cliente y llegar por el req,  y luego la 
+       contraseña encriptada que esta daentro de los rows en la primera posicion con el campo "password" 
+       Y si es true pues el login es exitios
+
+       Para ello nos creamos una variable que se igual al metodo anterior para que coger si es true o false. Si es true
+       creamos el JWT que definilmos en el helpers
+
+    .- Si todo va bien le enviamos el  token que nos devuleve como promesa la funcion crearToken definida en los helpesrs
+       y si va mal en le catch  le enviamos el mensaje de erro definido en la propia función
+
+     
+     ,-  En las rutas definimos la ruta para el login  
+
+
+
+
+
+     /*========================================== C R E A R  J  W  T=================================================
+
+      Vamos a crear esta función como helper por si tuvieramos que reutilizarla en este u otro proyecto
+
+      Instalamos el modulo jsonwebtoken y lo importamos
+
+
+     Funcion para crear el token, le pasamos el id del iusuario por parametro y nos devueve una promesa
+    
+     .- Primero tenemos que construir el payload del jwt. esto lo almacenamos en una variable 
+        En el payload le indicamos la información (no comprometida) del usuario que definamos nosotros, en este caso
+        solo le vamos a pasar el id del usuario
+    
+      .- Utilizamos la función sign() del objeto jwt dle jwt que hemos importado. Recibe dos parametros, el payload y la firma
+         La firma la cramos nosotros, tiene que ser largay  con caracteres especiales para ser sergura, la  vamos a guardar como
+         variable de entorno. Tambien reacibe unas opciones que van como siemore entre {}. le vamo a poner el tiempo de expiracion
+    
+         Express no trabaja con variables de entorno por lo que tenemos que importar ese paquete  (mpm i dotenv)
+    
+    
+       .- Sing() recibe varios parametros;
+       
+            1_  El payload, 
+            2.- La firma creada
+            3.- Opciones:
+                    Las opciones son objeto y tiene atributos como por eemplo el tiempo de expiracion del token. 
+                    Si no le indicamos nada el token no expirará nunca
+            4,. Un callback que recibe como parametros un error y el token y es es que resuelve la promesa
+                Si hay un error lo definmos en el reject
+                Y si todo va bien devolvemos el tokden en el resolve
+           
+    
+          
+        .- Por ultimo lo exportamos y lo usamos en el controlador
+    
+    
+    
+    
+    
+    *
