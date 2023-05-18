@@ -15,9 +15,9 @@ const validarJWT = (req, res = response, next) => {
 
         })
     }
+
     try {
 
-        //** 
 
         const { userName, rol } = jwt.verify(token, process.env.JWT)
 
@@ -44,10 +44,3 @@ const validarJWT = (req, res = response, next) => {
 module.exports = {
     validarJWT
 }
-
-/* 
-  Con el metodo verif de jsonwebtoken comprobamos que el token que pasamos este bien generoado, para ello
-  primero pasamos el token que extraemos de los header de la petición y luego la firma que tenemos en la variables de entorno
-
-  Esto nos devuelve un paylod y de este extraemos el nombre del usuario y el rol
-*/

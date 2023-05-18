@@ -137,7 +137,7 @@ controllerProductos.productosNombre = ((req, res) => {
 
 });
 
-// Productos por nombreProduto que empeizen
+// Productos por nombreProduto que empeizen por los caracteres introducidos
 controllerProductos.productosNombrePor = ((req, res) => {
     const { nombreProducto } = req.body;
     const sig = "%"

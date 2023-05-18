@@ -12,9 +12,12 @@ const { user, insertUser, updatePassword, deleteUser, login, renewToken } = requ
 const { validarJWT } = require("../middlewares/validar-jwt");
 
 
-// Rutas
+// Rutas usuarios
+
+//Obtenemos los usuarios
 router.get("/user", user)
 
+//inserteamos un usaurio validadmos los campos con express-validator
 router.post("/user/insert", [
     check('userName', "El nombre de Usuario es obligatorio").not().isEmpty(),
     check('email', "El email es obligatorio").not().isEmpty(),
@@ -24,10 +27,15 @@ router.post("/user/insert", [
     check("password", "La contraseña tiene que ser Alfanumerica").isAlphanumeric()
 ], insertUser)
 
+
+//Borramos un usuario
 router.delete("/user/delete", deleteUser)
 
+//Actualizamos usuario
 router.put("/user/update", updatePassword)
 
+
+//logeo de usuario validadmos los campos con express-validator
 router.post('/user/login', [
         check("email", "El email es obligatorio").not().isEmpty(),
         check("email", "El email no tiene formato valido").isEmail(),
@@ -37,7 +45,10 @@ router.post('/user/login', [
     ],
     login)
 
+
+//renovamos el token
 router.get('/user/renew', validarJWT, renewToken)
+
 
 // exportamos la rutas
 module.exports = router;

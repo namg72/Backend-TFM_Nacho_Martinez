@@ -14,7 +14,7 @@ const bcrypt = require('bcryptjs');
 const { crearJWT } = require('../helpers/jwt.helper')
 const jwt = require('jsonwebtoken');
 
-// Mostar user
+// Mostramos  usuario
 controllerUser.user = ((req, res) => {
 
     let query = "SELECT * FROM user"
@@ -38,7 +38,7 @@ controllerUser.user = ((req, res) => {
 });
 
 
-// Insertar  user
+// Insertarmos usuario en la bd
 controllerUser.insertUser = ((req, res) => {
 
     // Validamos los datos que nos bienen en el body
@@ -73,7 +73,7 @@ controllerUser.insertUser = ((req, res) => {
                 conexion.query(query, [userName, email, securePassword], (err, rows) => {
                     if (err) {
                         throw err;
-                        console.log(err);
+
                     } else {
                         res.status(200).json({
                             ok: true,
@@ -176,6 +176,7 @@ controllerUser.deleteUser = ((req, res) => {
 
 //Login usuario
 controllerUser.login = ((req, res) => {
+
     // Validamos los datos que nos bienen en el body
     const validator = validationResult(req);
     if (validator.errors.length > 0) {

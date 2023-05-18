@@ -5,7 +5,7 @@ const router = express.Router();
 // Controllers
 const { productos, productosTipo, productosFamilia, productosSubFamilia, productosNombre, productosNombrePor, productosTipoYNombre, productosInsert } = require('../controllers/controller.productos');
 
-//Rutas
+//Rutas productos
 router.get("/productos", productos)
 router.post("/productos/tipo", productosTipo)
 router.post("/productos/familia", productosFamilia)
